@@ -23,7 +23,24 @@ server {
         return 404;
     }
 
+    location = /Marti/api/version {
+        default_type text/plain;
+        return 200 "OpenTAKServer";
+    }
+
     location /Marti {
+        include includes.d/proxy_params;
+        proxy_http_version 1.1;
+        proxy_pass http://${OTS_ADDRESS};
+    }
+
+    location /files {
+        include includes.d/proxy_params;
+        proxy_http_version 1.1;
+        proxy_pass http://${OTS_ADDRESS};
+    }
+
+    location /oauth {
         include includes.d/proxy_params;
         proxy_http_version 1.1;
         proxy_pass http://${OTS_ADDRESS};
